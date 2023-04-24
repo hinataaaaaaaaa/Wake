@@ -3,9 +3,9 @@ import 'package:nfc_manager/nfc_manager.dart';
 
 // 書き込み
 class NFCWrite {
-  nfcwrite() {
+  
+  nfcwrite(TextEditingController textEditingController) {
     ValueNotifier<dynamic> result = ValueNotifier(null);
-    final TextEditingController textEditingController = TextEditingController();
 
     NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
       var ndef = Ndef.from(tag);
@@ -14,15 +14,13 @@ class NFCWrite {
         NfcManager.instance.stopSession(errorMessage: result.value);
         return;
       }
-
-
+      
       String text = textEditingController.text;
       NdefRecord textRecord = NdefRecord.createText(text);
       NdefMessage message = NdefMessage([textRecord]);
 
       try {
         await ndef.write(message);
-        //await ndef.writeLock();
         result.value = '書き込みました!"';
         NfcManager.instance.stopSession();
       } catch (e) {

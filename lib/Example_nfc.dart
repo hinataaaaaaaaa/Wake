@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nfc_manager/nfc_manager.dart';
+import 'package:flutter_wake/Write_nfc.dart';
 
 class NFC extends StatefulWidget {
   const NFC({Key? key}) : super(key: key);
@@ -65,6 +66,10 @@ class _NFCState extends State<NFC> {
                             //書き込みボタン
                             ElevatedButton(
                               onPressed: _ndefWrite,
+                              //書き込み処理をファイル別にした処理
+                              // onPressed: () {
+                              //   NFCWrite().nfcwrite(_textEditingController);
+                              // },
                               child: const Text('NFCに書き込む'),
                             ),
                             //削除ボタン
@@ -85,7 +90,7 @@ class _NFCState extends State<NFC> {
 
   // 読み込み
   void _ndefRead() {
-      NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
+    NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
       result.value = tag.data;
       NfcManager.instance.stopSession();
     });
@@ -95,6 +100,7 @@ class _NFCState extends State<NFC> {
   void _ndefWrite() {
     NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
       var ndef = Ndef.from(tag);
+      //書き込み不可の場合セッションを停止
       if (ndef == null || !ndef.isWritable) {
         result.value = '書き込み失敗しました';
         NfcManager.instance.stopSession(errorMessage: result.value);
