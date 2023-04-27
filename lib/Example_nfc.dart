@@ -52,6 +52,13 @@ class _NFCState extends State<NFC> {
                           crossAxisSpacing: 4,
                           mainAxisSpacing: 4,
                           children: [
+                            //文字列入力フィールド
+                            // TextField(
+                            //   controller: _textEditingController,
+                            //   decoration: const InputDecoration(
+                            //     hintText: '書き込む文字列を入力してください',
+                            //   ),
+                            // ),
                             //読み込みボタン
                             ElevatedButton(
                               onPressed: () {
