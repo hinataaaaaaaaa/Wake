@@ -3,6 +3,7 @@ import 'package:nfc_manager/nfc_manager.dart';
 import 'package:flutter_wake/Write_nfc.dart';
 
 class NFCScan {
+  
   String _generatedID = ""; // 生成されたIDを格納するためのローカル変数
 
   nfcscan(String generatedID) async {
