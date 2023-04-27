@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_wake/Read_nfc.dart';
+import 'package:flutter_wake/Scan_nfc.dart';
 import 'package:nfc_manager/nfc_manager.dart';
-import 'package:flutter_wake/Write_nfc.dart';
 
 class NFC extends StatefulWidget {
   const NFC({Key? key}) : super(key: key);
@@ -41,7 +42,7 @@ class _NFCState extends State<NFC> {
                             ),
                           ),
                         ),
-                      ),
+                      ), 
                       Flexible(
                         flex: 3,
                         child: GridView.count(
@@ -51,25 +52,21 @@ class _NFCState extends State<NFC> {
                           crossAxisSpacing: 4,
                           mainAxisSpacing: 4,
                           children: [
-                            //文字列入力フィールド
-                            TextField(
-                              controller: _textEditingController,
-                              decoration: const InputDecoration(
-                                hintText: '書き込む文字列を入力してください',
-                              ),
-                            ),
                             //読み込みボタン
                             ElevatedButton(
-                              onPressed: _ndefRead,
+                              onPressed: () {
+                                NFCRead().nfcread();
+                              }, 
+                              // onPressed: _ndefRead,
                               child: const Text('NFCを読み込む'),
                             ),
                             //書き込みボタン
                             ElevatedButton(
-                              onPressed: _ndefWrite,
+                              // onPressed: _ndefWrite,
                               //書き込み処理をファイル別にした処理
-                              // onPressed: () {
-                              //   NFCWrite().nfcwrite(_textEditingController);
-                              // },
+                               onPressed: () {
+                                 NFCScan().nfcscan("");
+                               },
                               child: const Text('NFCに書き込む'),
                             ),
                             //削除ボタン

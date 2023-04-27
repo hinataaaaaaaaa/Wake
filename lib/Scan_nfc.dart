@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:nfc_manager/nfc_manager.dart';
-import 'dart:convert';
+import 'package:flutter_wake/Write_nfc.dart';
 
-String _tagvalue = "";
+class NFCScan {
+  String _generatedID = ""; // 生成されたIDを格納するためのローカル変数
 
-class NFCRead {
-  nfcread() async {
+  nfcscan(String generatedID) async {
+    // 生成されたIDをローカル変数に保存
+    _generatedID = generatedID;
+    //デバイスが読み込み可能かどうか
+    NfcManager.instance.isAvailable().then((bool isAvailable) {
+      if (isAvailable) {
+        debugPrint("このデバイスは読み込み可能です");
+        debugPrint(_generatedID);
+      } else {
+        debugPrint("このデバイスは読み込み不可です");
+        return;
+      }
+    });
     //NFCリーダーをアクティブ状態にする
     await NfcManager.instance.startSession(
       pollingOptions: {NfcPollingOption.iso14443, NfcPollingOption.iso15693},
@@ -14,17 +26,13 @@ class NFCRead {
         final ndef = Ndef.from(tag);
         //NFC内のデータがNULLであれば処理を終了（読み込み失敗）
         if (ndef == null) {
-          debugPrint("読み取り失敗");
+          debugPrint("値がNULLです");
           await NfcManager.instance.stopSession(errorMessage: 'error');
           return;
         } else {
-          //NFC内のデータ読み取り
-          final message = await ndef.read();
-          //NFC内のレコード(最初に入っているデータ)を取り出す
-          final tagValue = await String.fromCharCodes(message.records.first.payload);
-          // debugPrint(utf8.encode(tagValue) as String?);
-          debugPrint(tagValue.runtimeType as String?);
-          _tagvalue = tagValue;
+          //書き込み処理に移行
+          final writeNFC = NFCWrite();
+          writeNFC.nfcwrite(_generatedID);
         }
       },
       onError: (dynamic e) async {

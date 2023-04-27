@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 
-// 書き込み
+// 書き込みクラス
 class NFCWrite {
-  
-  nfcwrite(TextEditingController textEditingController) {
-    ValueNotifier<dynamic> result = ValueNotifier(null);
-
+  nfcwrite(String id) {
     NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
+      debugPrint(id);
       var ndef = Ndef.from(tag);
+      //書き込み可能かどうか
       if (ndef == null || !ndef.isWritable) {
-        result.value = '書き込み失敗しました';
-        NfcManager.instance.stopSession(errorMessage: result.value);
+        debugPrint('書き込み失敗しました');
+        NfcManager.instance.stopSession();
         return;
       }
-      
-      String text = textEditingController.text;
-      NdefRecord textRecord = NdefRecord.createText(text);
+
+      //レコードを生成
+      NdefRecord textRecord = NdefRecord.createText(id);
+      //レコード内にメッセージ作成
       NdefMessage message = NdefMessage([textRecord]);
 
       try {
+        //NFCに書き込み
         await ndef.write(message);
-        result.value = '書き込みました!"';
-        NfcManager.instance.stopSession();
+        debugPrint('書き込みました!"');
       } catch (e) {
-        result.value = e;
-        NfcManager.instance.stopSession(errorMessage: result.value.toString());
+        print(e);
+        NfcManager.instance.stopSession();
         return;
       }
     });

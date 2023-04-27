@@ -3,23 +3,24 @@ import 'package:nfc_manager/nfc_manager.dart';
 
 // 削除
 class NFCErase {
+  
   nfcerase() {
-    ValueNotifier<dynamic> result = ValueNotifier(null);
     NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
       var ndef = Ndef.from(tag);
       if (ndef == null || !ndef.isWritable) {
-        result.value = '消去に失敗しました';
+        print('消去に失敗しました');
         NfcManager.instance.stopSession();
         return;
       }
 
+      //NFC内のデータを空文字で上書き
       String text = '';
       NdefRecord textRecord = NdefRecord.createText(text);
       NdefMessage message = NdefMessage([textRecord]);
 
+      //消去(書き込み)
       await ndef.write(message);
-      //await ndef.writeLock();
-      result.value = '消去しました!"';
+      print('消去しました!"');
       NfcManager.instance.stopSession();
       return;
     });
