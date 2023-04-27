@@ -3,10 +3,10 @@ import 'package:nfc_manager/nfc_manager.dart';
 
 // 削除
 class NFCErase {
-  
   nfcerase() {
     NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
       var ndef = Ndef.from(tag);
+      //消去できるかどうか(書き込みできるかどうか)
       if (ndef == null || !ndef.isWritable) {
         print('消去に失敗しました');
         NfcManager.instance.stopSession();
