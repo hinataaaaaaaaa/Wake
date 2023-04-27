@@ -16,7 +16,7 @@ class NFCWrite {
 
       //レコードを生成
       NdefRecord textRecord = NdefRecord.createText(id);
-      //レコード内にメッセージ作成
+      //レコード内にメッセージ生成
       NdefMessage message = NdefMessage([textRecord]);
 
       try {
