@@ -22,8 +22,8 @@ class NFCRead {
           final message = await ndef.read();
           //NFC内のレコード(最初に入っているデータ)を取り出す
           final tagValue = await String.fromCharCodes(message.records.first.payload);
-          // debugPrint(utf8.encode(tagValue) as String?);
-          debugPrint(tagValue.runtimeType as String?);
+          //debugPrint(utf8.encode(tagValue) as String?);
+          //debugPrint(tagValue.runtimeType as String?);
           _tagvalue = tagValue;
         }
       },
