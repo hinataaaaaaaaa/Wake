@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wake/Read_nfc.dart';
-import 'package:flutter_wake/Scan_nfc.dart';
+import 'package:flutter_wake/nfc/Read_nfc.dart';
+import 'package:flutter_wake/nfc/Scan_nfc.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 
 class NFC extends StatefulWidget {
@@ -72,7 +72,7 @@ class _NFCState extends State<NFC> {
                               // onPressed: _ndefWrite,
                               //書き込み処理をファイル別にした処理
                                onPressed: () {
-                                 NFCScan().nfcscan("");
+                                 NFCScan().nfcscan("1234");
                                },
                               child: const Text('NFCに書き込む'),
                             ),

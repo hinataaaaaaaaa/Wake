@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_wake/Example_nfc.dart';
+import 'package:flutter_wake/background.dart';
+
+import 'alarm.dart';
+
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,7 +20,7 @@ void main() {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const NFC(),
+        home: const NFC()
       );
-    }
+    } 
   }
